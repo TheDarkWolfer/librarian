@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import { Routes, Route, Link } from 'react-router-dom'
 
 // Différentes routes
 import Search from './Search.tsx'
 
-import './App.css'
+import './style.css'
 
 function App() {
 
