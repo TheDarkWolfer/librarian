@@ -36,6 +36,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    background-color:var(--base);
 }
 
 .light .dark {
@@ -54,6 +55,8 @@ html, body {
 
 .pages {
   background-color:var(--base);
+  padding:0rem;
+  margin:0rem;
 }
 
 li {

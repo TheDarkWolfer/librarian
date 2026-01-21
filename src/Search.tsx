@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 function App() {
   return (
     <>
-    <h1>Searching</h1>
+    <h1>Recherche</h1>
     </>
   )
 }
