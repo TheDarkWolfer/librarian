@@ -11,14 +11,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import HomeFilledIcon from '@mui/icons-material/HomeFilled';
 
+//Éléments fonctionnels de MaterialUI
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
-import { ThemeProvider } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
 
 // Différentes routes
-import Search from './Search.tsx';
+import Search from './Search.tsx'; // Recherche avancée
 
 //========================[Beauté de l'interface]========================//
 
@@ -43,7 +45,9 @@ function App() {
   const location = useLocation()
 
   const handleChange = (event: React.SyntheticEvent, newPage: string) => {
-    navigate(newPage)
+    if (newPage != "theme") {
+      navigate(newPage)
+    }
   }
 
   return (
@@ -51,35 +55,32 @@ function App() {
     <CssBaseline/>
       <>
 	<nav className="pages">
-	  <ul>
-
-	    <Checkbox
-	      icon={<DarkModeIcon/>}
-	      checkedIcon={<LightModeIcon/>}
-	      // Ternaire pour la sélection du thème
-	      onChange={(e) => {
-		setTheme(e.target.checked ? 'light' : 'dark')
-	      }}
-	      />
-	    <li><a href="/">Home</a></li>
-	    <li><a href="/search">Search</a></li>
-	  </ul>
-
 	  <BottomNavigation value={location.pathname} onChange={handleChange}>
+	    
+	    // Bouton pour changer le thème ; me sers bien des ternaires vu que ça 
+	    // rend la gestion du changement d'état BIEN PRATIQUE~
+	    <BottomNavigationAction
+	      label={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+	      icon={
+		theme === 'dark' ? <DarkModeIcon /> : <LightModeIcon />
+	      }
+	      onClick={(e) => {
+		setTheme(theme === 'dark' ? 'light' : 'dark')
+		e.preventDefault()
+	      }}
+	      value="theme"
+	      // Optional: Prevent navigation when clicking the theme toggle
+	      //onChange={(e) => e.stopPropagation()}
+	    />
 	    <BottomNavigationAction
 	      label="Accueil"
-	      value="home"
+	      value=""
 	      icon={<HomeFilledIcon/>}
 	      />
 	    <BottomNavigationAction
 	      label="Recherche"
 	      value="search"
 	      icon={<SearchIcon />}
-	      />
-	    <BottomNavigationAction
-	      label="Recherche avancée"
-	      value="adv_search"
-	      icon={<BiotechIcon/>}
 	      />
 	  </BottomNavigation>
 	</nav>
