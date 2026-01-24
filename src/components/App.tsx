@@ -26,7 +26,7 @@ import Search from './Search.tsx'; // Recherche avancée
 
 // Import d'une feuille de style parce que je REFUSE de
 // négliger cet aspect
-import './style.css';
+import '../style.css';
 
 // Implémentation de modes sombre / clair
 import { lightTheme, darkTheme } from './theme.ts'
@@ -45,9 +45,14 @@ function App() {
   const location = useLocation()
 
   const handleChange = (event: React.SyntheticEvent, newPage: string) => {
-    if (newPage != "theme") {
-      navigate(newPage)
-    }
+  switch (newPage) {
+    case "theme":
+      return;
+    case "back":
+      navigate(-1);
+    default:
+      navigate(newPage);
+    } 
   }
 
   return (
@@ -89,7 +94,7 @@ function App() {
 	  />
 	  <BottomNavigationAction
 	    label="Accueil"
-	    value=""
+	    value="back"
 	    icon={<HomeFilledIcon/>}
 	    />
 	  <BottomNavigationAction
