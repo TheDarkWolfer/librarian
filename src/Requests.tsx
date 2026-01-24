@@ -36,6 +36,21 @@ interface SearchResponse {
   docs: BookDoc[];
 }
 
+function sanitizeInput(dataIn:string): string {
+  const dataValidationSchema = z.string()
+    .trim()
+    .min(1, "Query can't be empty")
+    .max(200, "Invalid query size")
+    .regex(/^[a-zA-Z0-9\s\-']+$/, "Invalid characters in query");
+  
+  const validatedQuery = dataIn.parse(dataValidationSchema);  // On passe les données à travers zod
+  const safeQuery = encodeURIComponent(validatedQuery);	      // On encode les données pour leur 
+							      // transmission dans l'URL de la requête
+							  
+
+  return safeQuery;
+}
+
 async function simplesearch(userquery: string): Promise<SearchResponse> {
     /*
       dev note : je sais que passer ce que l'utilisateur.ice directement 
@@ -47,6 +62,7 @@ async function simplesearch(userquery: string): Promise<SearchResponse> {
       que ça marche avant de marcher bien.
       risk management baby ˶ˆᗜˆ˵ !
     */
+
   const response = await axios.get<SearchResponse>(
     `https://openlibrary.org/search.json?q=${userquery}`
   );
