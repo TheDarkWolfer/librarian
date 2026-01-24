@@ -51,7 +51,7 @@ function sanitizeInput(dataIn:string): string {
   return safeQuery;
 }
 
-async function simplesearch(userquery: string): Promise<SearchResponse> {
+async function simplesearch(userQuery: string): Promise<SearchResponse> {
     /*
       dev note : je sais que passer ce que l'utilisateur.ice directement 
       à l'api est une idée aussi viable que de se parfumer au bacon avant 
@@ -63,8 +63,13 @@ async function simplesearch(userquery: string): Promise<SearchResponse> {
       risk management baby ˶ˆᗜˆ˵ !
     */
 
+  // On nettoie les données, au cas où quelqu'un 
+  // essaie de nous faire une blague ˵ ¬ᴗ¬˵
+  userQuery = sanitizeInput(userQuery)
+
+  // On fait la requête à `openlibrary.org`
   const response = await axios.get<SearchResponse>(
-    `https://openlibrary.org/search.json?q=${userquery}`
+    `https://openlibrary.org/search.json?q=${userQuery}`
   );
   
   return response.data;
