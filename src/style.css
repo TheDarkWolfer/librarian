@@ -32,6 +32,41 @@
   color-scheme: light dark;
 }
 
+/* Centrer tout le texte */
+* {
+    text-align: center;
+}
+
+/* Titres */
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+}
+
+h5 {
+    text-align: center;
+}
+
+/* Liens */
+a {
+    text-align: center;
+}
+
+/* Paragraphes */
+p {
+    text-align: center;
+}
 
 html, body {
     height: 100%;
