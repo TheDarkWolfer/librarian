@@ -53,42 +53,52 @@ function App() {
   return (
   <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
     <CssBaseline/>
+      <div style={{
+	  display: 'flex',
+	  flexDirection: 'column',
+	  minHeight: '100vh'
+	}}>
       <>
-	<nav className="pages">
-	  <BottomNavigation value={location.pathname} onChange={handleChange}>
-	    
-	    // Bouton pour changer le thème ; me sers bien des ternaires vu que ça 
-	    // rend la gestion du changement d'état BIEN PRATIQUE~
-	    <BottomNavigationAction
-	      label={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-	      icon={
-		theme === 'dark' ? <DarkModeIcon /> : <LightModeIcon />
-	      }
-	      onClick={(e) => {
-		setTheme(theme === 'dark' ? 'light' : 'dark')
-		e.preventDefault()
-	      }}
-	      value="theme"
-	      // Optional: Prevent navigation when clicking the theme toggle
-	      //onChange={(e) => e.stopPropagation()}
-	    />
-	    <BottomNavigationAction
-	      label="Accueil"
-	      value=""
-	      icon={<HomeFilledIcon/>}
-	      />
-	    <BottomNavigationAction
-	      label="Recherche"
-	      value="search"
-	      icon={<SearchIcon />}
-	      />
-	  </BottomNavigation>
-	</nav>
-
+      <div style={{flex:1}}>
 	<Routes>
 	  <Route path="/search" element={<Search />} />
 	</Routes>
+      </div>
       </>
+      <BottomNavigation 
+	  value={location.pathname} 
+	  onChange={handleChange}
+	  position="relative"
+	  sx={{ bottom: 0, width: '100%' }}  
+	  >
+	  
+	  // Bouton pour changer le thème ; me sers bien des ternaires vu que ça 
+	  // rend la gestion du changement d'état BIEN PRATIQUE~
+	  <BottomNavigationAction
+	    label={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+	    icon={
+	      theme === 'dark' ? <DarkModeIcon /> : <LightModeIcon />
+	    }
+	    onClick={(e) => {
+	      setTheme(theme === 'dark' ? 'light' : 'dark')
+	      e.preventDefault()
+	    }}
+	    value="theme"
+	    // Optional: Prevent navigation when clicking the theme toggle
+	    //onChange={(e) => e.stopPropagation()}
+	  />
+	  <BottomNavigationAction
+	    label="Accueil"
+	    value=""
+	    icon={<HomeFilledIcon/>}
+	    />
+	  <BottomNavigationAction
+	    label="Recherche"
+	    value="search"
+	    icon={<SearchIcon />}
+	    />
+	</BottomNavigation>
+    </div>
   </ThemeProvider>
 )}
 
