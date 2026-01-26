@@ -14,22 +14,28 @@ import { useSimpleSearch } from '../api_logic/Requests.tsx';
 function App() {
 
   const [bookName, setBookName] = useState<string>("Ellana");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const location = useLocation();
   const [triggerSearch, setTriggerSearch] = useState(false);
-  const { data, loading, error } = useSimpleSearch(triggerSearch || location.search ? bookName : "");
+  const { data, loading, error } = useSimpleSearch(searchTerm);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get('q');
     if (query) {
       setBookName(query);
+      setSearchTerm(query)
     }
   }, [location.search]);
     
   useEffect(() => {
     if (data || error) setTriggerSearch(false);
   }, [data, error]);
+
+  const handleSearch = () => {
+    setSearchTerm(bookName);
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBookName(event.target.value);
@@ -45,7 +51,7 @@ function App() {
       /> 
       <Button
 	variant="contained"
-	onClick={() => setTriggerSearch(true)}
+	onClick={handleSearch}
 	sx={{ mt: 1 }}
       >
 	<SearchIcon/>
@@ -71,6 +77,7 @@ function App() {
 	      }}>
 
 		<h4>{book.title}</h4>
+		<h5>{book.key}</h5>
 		{book.cover_i && (
 			    <img
 			      src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}	
