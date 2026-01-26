@@ -14,13 +14,19 @@ import HomeFilledIcon from '@mui/icons-material/HomeFilled';
 //Éléments fonctionnels de MaterialUI
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import AppBar from '@mui/material/AppBar';
+import TextField from '@mui/material/TextField';
+import ToolBar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
 
+// Éléments plus visuels que fonctionnels
+import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 
 // Différentes routes
-import Search from './Search.tsx'; // Recherche avancée
+import SearchPage from './Search.tsx'; // Recherche avancée
 
 //========================[Beauté de l'interface]========================//
 
@@ -41,8 +47,11 @@ function App() {
 
   const [ theme, setTheme ] = useState<string>('dark'); // Sombre par défaut, on évite les flashbangs à 3h du mat'
 
-  const navigate = useNavigate()
-  const location = useLocation()
+  
+  const [query, setQuery] = useState('');
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleChange = (event: React.SyntheticEvent, newPage: string) => {
   switch (newPage) {
@@ -55,6 +64,13 @@ function App() {
     } 
   }
 
+  const handleSearch = () => {
+    if (query.trim()) {
+      navigate(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
+
+
   return (
   <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
     <CssBaseline/>
@@ -64,17 +80,60 @@ function App() {
 	  minHeight: '100vh'
 	}}>
       <>
-      <div style={{flex:1}}>
-	<Routes>
-	  <Route path="/search" element={<Search />} />
-	</Routes>
-      </div>
+       <Box sx={{ flex: 1, pt: 8 }}>
+	 <Routes>
+	    <Route path="/search" element={<SearchPage/>} />
+	  </Routes>
+      </Box>
+
+      <AppBar 
+	position="fixed"
+	color="primary"
+      >
+	<ToolBar>
+	  <Box>
+	    <TextField 
+	      variant="outlined" 
+	      label="Recherche rapide" 
+	      placeholder="Recherche rapide..."
+		
+	      // Permettre la recherche depuis la barre de navigation
+	      value={query}
+	      onChange={(e) => setQuery(e.target.value)}
+	      onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+	    />
+	  </Box>
+	  <Button
+	    variant="contained"
+	    onClick={handleSearch}
+	    sx={{ 
+	      ml: 1, 
+	      height: '40px' 
+	    }}
+	  >
+	    Rechercher
+	  </Button>
+	  <Typography
+	    variant="h6"
+	    sx={{
+	      padding:"1rem",
+	      margin:"0rem",
+	    }}
+	  >
+	    𝕷𝖎𝖇𝖗𝖆𝖗𝖎𝖆𝖓
+	  </Typography>
+	</ToolBar>
+      </AppBar>
+
       </>
       <BottomNavigation 
 	  value={location.pathname} 
 	  onChange={handleChange}
-	  position="relative"
-	  sx={{ bottom: 0, width: '100%' }}  
+	  sx={{ 
+	    bottom: 0, 
+	    width: '100%',
+	    position: 'fixed',
+	  }}  
 	  >
 	  
 	  // Bouton pour changer le thème ; me sers bien des ternaires vu que ça 
@@ -89,17 +148,15 @@ function App() {
 	      e.preventDefault()
 	    }}
 	    value="theme"
-	    // Optional: Prevent navigation when clicking the theme toggle
-	    //onChange={(e) => e.stopPropagation()}
 	  />
 	  <BottomNavigationAction
 	    label="Accueil"
-	    value="back"
+	    value="back" // C'est fait à la McGuyver ? Oui. Pas touche (¬_¬")
 	    icon={<HomeFilledIcon/>}
 	    />
 	  <BottomNavigationAction
 	    label="Recherche"
-	    value="search"
+	    value="search" // J'ai dit pas touche (¬_¬")
 	    icon={<SearchIcon />}
 	    />
 	</BottomNavigation>
