@@ -1,10 +1,8 @@
-import {useEffect, useState} from 'react';
-import { axios } from 'axios';
+import { useEffect, useState } from 'react';
+import axios from 'axios'; 
+import { z } from 'zod';
 
-/* 
-  Interfaces (schémas) pour les données récupérées par le call API ; 
-  J'ai fait ça par soucis de clareté et de documentation.
-*/
+// Interfaces pour pouvoir stocker les données de l'API
 interface BookDoc {
   key: string;
   title: string;
@@ -12,7 +10,7 @@ interface BookDoc {
   edition_count: number;
   has_fulltext: boolean;
   public_scan_b: boolean;
-  
+
   author_key?: string[];
   author_name?: string[];
   cover_edition_key?: string;
@@ -36,42 +34,48 @@ interface SearchResponse {
   docs: BookDoc[];
 }
 
-function sanitizeInput(dataIn:string): string {
+// Fonction de nettoyage de l'entrée utilisateur.ice avec zod, au cas où
+function sanitizeInput(dataIn: string): string {
   const dataValidationSchema = z.string()
     .trim()
     .min(1, "Query can't be empty")
     .max(200, "Invalid query size")
     .regex(/^[a-zA-Z0-9\s\-']+$/, "Invalid characters in query");
-  
-  const validatedQuery = dataIn.parse(dataValidationSchema);  // On passe les données à travers zod
-  const safeQuery = encodeURIComponent(validatedQuery);	      // On encode les données pour leur 
-							      // transmission dans l'URL de la requête
-							  
+
+  const validatedQuery = dataValidationSchema.parse(dataIn);   
+  const safeQuery = encodeURIComponent(validatedQuery);
 
   return safeQuery;
 }
 
-async function simplesearch(userQuery: string): Promise<SearchResponse> {
-    /*
-      dev note : je sais que passer ce que l'utilisateur.ice directement 
-      à l'api est une idée aussi viable que de se parfumer au bacon avant 
-      d'aller dans la savane ; cependant, étant dans un environnement de 
-      dev où les seules personnes qui pourraient en abuser savent pertinament 
-      que je vais les perdre dans la forêt si iels osent, je me permets de 
-      faire un truc instable avant de l'améliorer et de le sécuriser pour 
-      que ça marche avant de marcher bien.
-      risk management baby ˶ˆᗜˆ˵ !
-    */
+// Hook permettant de faire les requêtes ; prend en entrée un terme 
+// (livre, nom d'auteur, bref quoi que çe soit), et et renvoie données, 
+// status et erreur (si applicable)
+export function useSimpleSearch(userQuery: string) {
+  const [data, setData] = useState<SearchResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // On nettoie les données, au cas où quelqu'un 
-  // essaie de nous faire une blague ˵ ¬ᴗ¬˵
-  userQuery = sanitizeInput(userQuery)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const safeQuery = sanitizeInput(userQuery);
+        const response = await axios.get<SearchResponse>(
+          `https://openlibrary.org/search.json?q=${safeQuery}`
+        );
+        setData(response.data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'You broke it (•̀⤙•́)');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // On fait la requête à `openlibrary.org`
-  const response = await axios.get<SearchResponse>(
-    `https://openlibrary.org/search.json?q=${userQuery}`
-  );
-  
-  return response.data;
+    if (userQuery) {
+      fetchData();
+    }
+  }, [userQuery]);
+
+  return { data, loading, error };
 }
-
