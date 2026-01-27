@@ -79,3 +79,36 @@ export function useSimpleSearch(userQuery: string) {
 
   return { data, loading, error };
 }
+
+// Oui on recycle le hook, mais ça permet une meilleure rigueur dans le traitement
+// des données, et d'utiliser une fonction plus précise pour les recherches précises
+export function useSpecificSearch(userQuery: string) {
+  const [data, setData] = useState<SearchResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const safeQuery = sanitizeInput(userQuery);
+        const response = await axios.get<SearchResponse>(
+          `https://openlibrary.org/works/${safeQuery}.json`
+        );
+        setData(response.data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Aucune oeuvre trouvée (つ╥﹏╥)つ');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userQuery) {
+      fetchData();
+    }
+  }, [userQuery]);
+
+  return { data, loading, error };
+}
+
+

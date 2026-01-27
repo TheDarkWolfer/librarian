@@ -27,6 +27,7 @@ import Box from '@mui/material/Box';
 
 // Différentes routes
 import SearchPage from './Search.tsx'; // Recherche avancée
+import BookPage from './Book.tsx'; // Détails d'un livre précis
 
 //========================[Beauté de l'interface]========================//
 
@@ -83,6 +84,7 @@ function App() {
        <Box sx={{ flex: 1, pt: 8 }}>
 	 <Routes>
 	    <Route path="/search" element={<SearchPage/>} />
+	    <Route path="/book" element={<BookPage/>} />
 	  </Routes>
       </Box>
 
