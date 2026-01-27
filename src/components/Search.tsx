@@ -1,8 +1,8 @@
 // Morceaux de React qu'on va utiliser
 import {useState, useEffect} from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-// Morceaux de React plus visuels
+// Morceaux de Material UI pour faire joli
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -62,7 +62,7 @@ function App() {
 
       {data && (
 	<div>
-	  <h3>{data.numFound} résultats pour "{bookName}"</h3>
+	  <h3>{data.numFound} résultats pour "{searchTerm}"</h3>
 	  <div style={{
 	    display: 'grid',
 	    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
@@ -77,8 +77,14 @@ function App() {
 	      }}>
 
 		<h4>{book.title}</h4>
-		<h5>{book.key}</h5>
-		{book.cover_i && (
+		<div key={book.key} className="book">
+		  <Link to={`/book/?id=${book.key.split('/').pop()}`}>
+		    //<h3>{book.title}</h3>
+		    <h3>Click me fuckface</h3>
+		    
+		  </Link>
+		</div>
+			  {book.cover_i && (
 			    <img
 			      src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}	
 			      alt={`Cover of ${book.title}`}
