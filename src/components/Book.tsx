@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 
 // On récupère aussi la fonction de recherche depuis 
 // le fichier de logique des requêtes
-import { useSpecificSearch } from '../api_logic/Requests.tsx';
+import { useSpecificSearch, useAuthorSearch  } from '../api_logic/Requests.tsx';
 
 function App() {
   // useState pour l'ID du bouquin
@@ -16,6 +16,12 @@ function App() {
   // Récupération de l'ID depuis l'URL
   const { key } = useParams();
   const {data, loading, error} = useSpecificSearch(bookID);
+
+  // Vu qu'on a potentiellement plusieurs auteur.ices, il faut adapter l'affichage des noms
+  if (data && Array.isArray(data.authors)) {
+    console.log(data.authors.map); // ✅ Safe
+  }
+
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
