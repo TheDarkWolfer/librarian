@@ -80,7 +80,6 @@ function App() {
 		<div key={book.key} className="book">
 		  <Link to={`/book/?id=${book.key.split('/').pop()}`}>
 		    //<h3>{book.title}</h3>
-		    <h3>Click me fuckface</h3>
 		    
 		  </Link>
 		</div>
