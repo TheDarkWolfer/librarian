@@ -4,10 +4,12 @@ import {useParams} from 'react-router-dom';
 
 // Material UI pour que ça soit agréable sur les yeux
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 // On récupère aussi la fonction de recherche depuis 
 // le fichier de logique des requêtes
 import { useSpecificSearch, useAuthorSearch  } from '../api_logic/Requests.tsx';
+import { AuthorDetails } from '../components/AuthorCard.tsx';
 
 function App() {
   // useState pour l'ID du bouquin
@@ -18,8 +20,12 @@ function App() {
   const {data, loading, error} = useSpecificSearch(bookID);
 
   // Vu qu'on a potentiellement plusieurs auteur.ices, il faut adapter l'affichage des noms
-  if (data && Array.isArray(data.authors)) {
-    console.log(data.authors.map); // ✅ Safe
+
+  function AuthorName({ authorKey }: { authorKey: string }) {
+    const { data, loading, error } = useAuthorSearch(authorKey);
+    
+    if (loading) return <span>...</span>;
+    return <span>{data?.name || "Unknown"}</span>;
   }
 
 
@@ -38,19 +44,16 @@ function App() {
 	<h1>𝓓é𝓽𝓪𝓲𝓵𝓼 𝓭'𝓾𝓷 𝓵𝓲𝓿𝓻𝓮</h1>
 	{loading && <p>Loading...</p>}
 	{error && <p>Error: {error.message}</p>}
-	{data && (
-	  <Box>
-	  <h2>{data.title}</h2>
-
-	    {data.authors.map((authorObj, index) => (
-	      <span key={index}>
-		{authorObj.author.key}
-		{index < data.authors.length - 1 ? ', ' : ''}
-	      </span>
-	    ))}
-
-	  </Box>
-	)}
+	  {data && (
+	    <Box>
+	      <h2>{data.title}</h2>
+	      
+	      <Typography variant="h6">Author(s):</Typography>
+	      {data.authors?.map((authorObj, index) => (
+		<AuthorDetails key={index} authorKey={authorObj.author.key} />
+	      ))}
+	    </Box>
+	  )}
       </>
   )
 }

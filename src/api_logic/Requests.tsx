@@ -35,12 +35,27 @@ interface SearchResponse {
 }
 
 interface AuthorData {
+  key: string;
   name: string;
-  remote_ids?: string[];
-  // L'API renvoie beaucoup plus de données, mais pour l'instant, on a
-  // juste besoin du nom. Les IDs distantes pourraient être utiles, mais 
-  // très peu pour l'instant
+  birth_date?: string;
+  death_date?: string;
+  bio?: string | { type: string; value: string };
+  wikipedia?: string;
+  photos?: number[];
+  links?: { url: string; title: string; type: { key: string } }[];
+  remote_ids?: {
+    viaf?: string;
+    wikidata?: string;
+    isni?: string;
+    goodreads?: string;
+  };
+  alternate_names?: string[];
+  personal_name?: string;
+  source_records?: string[];
+  // Bon, vu qu'on va afficher un paquet de data, autant avoir
+  // une structure stable et viable pour ça
 }
+
 
 // Fonction de nettoyage de l'entrée utilisateur.ice avec zod, au cas où
 function sanitizeInput(dataIn: string): string {
@@ -120,31 +135,32 @@ export function useSpecificSearch(userQuery: string) {
 }
 
 // Fonction pour récupérer le nom d'un.e auteur.ice, une troisième itération des fonctions précédentes
-export function useAuthorSearch(authorName:string) {
+export function useAuthorSearch(authorKey: string) {
   const [data, setData] = useState<AuthorData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string|null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-    try {
-      setLoading(true);
-      const safeQuery = sanitizeInput(authorName);
-      const response = await axios.get<AuthorData>(
-	`https://openlibrary.org/${safeQuery}.json`
-      );
-	setData(response.data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Il manque un gens dans la DB (¬_¬")');
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        setLoading(true);
+        const authorId = authorKey.replace('/authors/', '');
+        const response = await axios.get<AuthorData>(
+          `https://openlibrary.org/authors/${authorId}.json`
+        );
+        setData(response.data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Il manque un gens dans la DB (¬_¬")');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    if (userQuery) {
-      fetchData()
+    if (authorKey) {
+      fetchData();
     }
-  },[authorName]);
+  }, [authorKey]);
 
-  return { data, loading, error};
+  return { data, loading, error };
 }
+
