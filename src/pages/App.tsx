@@ -81,7 +81,11 @@ function App() {
 	  minHeight: '100vh'
 	}}>
       <>
-       <Box sx={{ flex: 1, pt: 8 }}>
+       <Box sx={{ 
+	 flex: 1, 
+	 paddingTop: "5rem",
+	 paddingBottom: "5rem",
+       }}>
 	 <Routes>
 	    <Route path="/search" element={<SearchPage/>} />
 	    <Route path="/book" element={<BookPage/>} />
@@ -122,7 +126,6 @@ function App() {
 	      margin:"0rem",
 	    }}
 	  >
-	    𝕷𝖎𝖇𝖗𝖆𝖗𝖎𝖆𝖓
 	  </Typography>
 	</ToolBar>
       </AppBar>
