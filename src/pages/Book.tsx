@@ -41,7 +41,7 @@ function App() {
 
   return (
       <>
-	<h1>𝓓é𝓽𝓪𝓲𝓵𝓼 𝓭'𝓾𝓷 𝓵𝓲𝓿𝓻𝓮</h1>
+	<h1>Détails d'un livre</h1>
 	{loading && <p>Loading...</p>}
 	{error && <p>Error: {error.message}</p>}
 	  {data && (
