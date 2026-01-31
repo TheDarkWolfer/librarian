@@ -3,7 +3,7 @@ import axios from 'axios';
 import { z } from 'zod';
 
 // Interfaces pour pouvoir stocker les données de l'API
-interface BookDoc {
+export interface BookDoc {
   key: string;
   title: string;
   ebook_access: string;

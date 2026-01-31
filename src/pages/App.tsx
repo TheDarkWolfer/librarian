@@ -40,9 +40,9 @@ import { lightTheme, darkTheme } from './theme.ts'
 export const ThemeContext = createContext<string>(null);
 
 // Usage d'un hook custom pour simplifier les choses
-export function useTheme() {
-  return useContext(ThemeContext);
-}
+// export function useTheme() {
+//   return useContext(ThemeContext);
+// }
 
 function App() {
 
@@ -94,7 +94,13 @@ function App() {
 
       <AppBar 
 	position="fixed"
-	color="primary"
+	sx={{
+	  opacity:1,
+	  boxShadow:'none',
+	  backgroundImage: 'none', 
+	  backgroundColor: `${theme === 'dark' ? '#393552' : '#f2e9e1'}`,
+	  color:`${theme === 'dark' ? '#393552' : '#f2e9e1'}`,
+	}}
       >
 	<ToolBar>
 	  <Box>
@@ -138,6 +144,8 @@ function App() {
 	    bottom: 0, 
 	    width: '100%',
 	    position: 'fixed',
+	    backgroundColor: `${theme === 'dark' ? '#393552' : '#f2e9e1'}`,
+	    color:`${theme === 'dark' ? '#393552' : '#f2e9e1'}`,
 	  }}  
 	  >
 	  

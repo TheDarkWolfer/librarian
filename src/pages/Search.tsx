@@ -7,9 +7,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 //Appel à l'API pour récupérer les infos
 import { useSimpleSearch } from '../api_logic/Requests.tsx';
+
+// Structure des cartes de chaque livre
+import { BookCard } from '../components/BookCard.tsx'
 
 function App() {
 
@@ -42,8 +46,15 @@ function App() {
   };
   return (
     <>
-    <h1>𝓡𝓮𝓬𝓱𝓮𝓻𝓬𝓱𝓮</h1>
+    <Typography variant="h1">
+      Recherche
+    </Typography>
+    <Box sx={{
+    }}>
       <TextField 
+	sx={{
+	  height:"0rem"
+	}}
 	label="Livre" 
 	variant="outlined"
         value={bookName}
@@ -52,64 +63,20 @@ function App() {
       <Button
 	variant="contained"
 	onClick={handleSearch}
-	sx={{ mt: 1 }}
+	sx={{ 
+	  mt: 1,
+	  width:"3rem",
+	  height:"3rem", // J'ai passé un quart d'heure là dessus, à avoir des erreurs sur le mimetype. Merci au revoir (つ╥﹏╥)つ
+	}}
       >
 	<SearchIcon/>
       </Button>
+    </Box>
 
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
 
-      {data && (
-	<div>
-	  <h3>{data.numFound} résultats pour "{searchTerm}"</h3>
-	  <div style={{
-	    display: 'grid',
-	    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-	    gap: '20px',
-	    marginTop: '20px'
-	  }}>
-	    {data.docs.map((book) => (
-	      <div key={book.key} style={{
-		border: '1px solid #ddd',
-		padding: '15px',
-		borderRadius: '5px'
-	      }}>
-
-		<h4>{book.title}</h4>
-		<div key={book.key} className="book">
-		  <Link to={`/book/?id=${book.key.split('/').pop()}`}>
-		    //<h3>{book.title}</h3>
-		    
-		  </Link>
-		</div>
-			  {book.cover_i && (
-			    <img
-			      src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}	
-			      alt={`Cover of ${book.title}`}
-			      style={{
-				width: '100%',
-				height: 'auto',
-				marginBottom: '10px',
-				maxHeight: '300px',
-				objectFit: 'contain'
-			      }}
-            />
-          )}
-		{book.author_name && (
-		  <p><small>par {book.author_name.join(', ')}</small></p>
-		)}
-		{book.first_publish_year && (
-		  <p><small>Première édition: {book.first_publish_year}</small></p>
-		)}
-		{book.ebook_access === 'public' && (
-		  <p><small>Disponible en ligne</small></p>
-		)}
-	      </div>
-	    ))}
-	  </div>
-	</div>
-      )}
+      {data && <BookCard bookData={data} searchTerm={searchTerm} />}
     </>
   )
 }
