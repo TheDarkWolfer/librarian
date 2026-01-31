@@ -1,0 +1,93 @@
+// Éléments de Material UI, pour faire un truc joli ¬ᴗ¬˵
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+
+// Icône(s) de Material UI ; moins fonctionnel(s), mais toujours nécessaire(s) pour l'UI/UX
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
+
+// Structures de données nécessaires
+import type { BookDoc } from '../api_logic/Requests.tsx';
+
+// Import du thème pour faire une belle page
+import { useTheme } from '@mui/material/styles';
+
+import { Link, useNavigate } from 'react-router-dom'; // Pour les liens (je crois que c'est plus utilisé ici :/')
+
+
+type BookCardProps = {
+  bookData: BookDoc;
+  searchTerm: string;
+};
+
+export function BookCard({ bookData, searchTerm }: BookCardProps) {
+
+  const theme = useTheme();
+  const navigate = useNavigate();
+
+  return (
+    <>
+      {bookData && (
+        <Box>
+          <h3>{bookData.numFound} résultats pour "{searchTerm}"</h3>
+          <Box sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+            gap: '2rem',
+            marginTop: '2rem'
+          }}>
+            {bookData.docs.map((book) => (
+              <Box
+	        onClick={() => navigate(`/book/?id=${book.key.split('/').pop()}`)}
+                key={book.key}
+                sx={{
+		  transition: 'all 0.1s ease',
+                  '&:hover': {
+		    transform: 'scale(1.05)',
+		    cursor: 'pointer',
+		  },
+		  backgroundColor:theme.palette.background.paper,
+                  padding: '1rem',
+                  borderRadius: '1rem'
+                }}
+              >
+
+                {book.cover_i && (
+                  <img
+                    src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
+                    alt={`Cover of ${book.title}`}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      marginBottom: '5rem',
+                      maxHeight: '25rem',
+                      objectFit: 'contain'
+                    }}
+                  />
+                )}
+
+                {book.author_name && (
+                  <p><small>par {book.author_name.join(', ')}</small></p>
+                )}
+
+                {book.first_publish_year && (
+                  <p><small>Première édition: {book.first_publish_year}</small></p>
+                )}
+
+                {book.ebook_access === 'public' && (
+                  <p><small>Disponible en ligne</small></p>
+                )}
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      )}
+    </>
+  );
+}
+
+export function BookSkeleton() {
+  return (
+    <h1>fuck off m8</h1>
+  )
+}

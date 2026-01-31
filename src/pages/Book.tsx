@@ -37,7 +37,12 @@ function App() {
     }
   }, [location.search])
 
-  console.log(data)
+  // console.log(data) 
+  /*
+    Je laisse ça pour deux raisons :
+      1. Ça peut toujours servir
+      2. J'ai passé dix minutes à chercher ce maudit console.log, et je veux garder ça là comme un petit souvenir de cette interruption
+  */
 
   return (
       <>
