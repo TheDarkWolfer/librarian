@@ -101,3 +101,13 @@ li {
 img {
   border-radius:1rem;
 }
+
+@keyframes gray_pulse {
+  0% { background-color: #6e6a86; }
+  50% { background-color: #393552; }
+  100% { background-color: #6e6a86; }
+}
+
+.doingMyPart {
+  animation: gray_pulse 3s ease-in-out infinite;
+}
