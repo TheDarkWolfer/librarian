@@ -6,7 +6,7 @@ import { useAuthorSearch } from '../api_logic/Requests.tsx';
 
 import { rmTerf } from '../assets/activism.tsx';
 
-export function AuthorDetails({ authorKey }: { authorKey: string }) {
+export function AuthorDetails({ authorKey }: { authorKey: string }):JSX.Element {
   const { data, loading, error } = useAuthorSearch(authorKey);
 
   const theme = useTheme();

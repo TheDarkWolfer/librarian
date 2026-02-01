@@ -126,6 +126,7 @@ function App() {
 	    Rechercher
 	  </Button>
 	  <Typography
+	  
 	    variant="h6"
 	    sx={{
 	      padding:"1rem",
@@ -136,7 +137,19 @@ function App() {
 	</ToolBar>
       </AppBar>
 
-      </>
+      <Box sx={{
+	display: 'flex',
+	justifyContent: 'center',
+	alignItems: 'center',
+        minHeight: '33rem',
+      }}>
+	<Box>
+	  <Typography>
+	    TEST
+	  </Typography>
+	</Box>
+      </Box>
+
       <BottomNavigation 
 	  value={location.pathname} 
 	  onChange={handleChange}
@@ -173,6 +186,7 @@ function App() {
 	    icon={<SearchIcon />}
 	    />
 	</BottomNavigation>
+      </>
     </div>
   </ThemeProvider>
 )}

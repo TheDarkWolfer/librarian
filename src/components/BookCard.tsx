@@ -20,7 +20,7 @@ type BookCardProps = {
   searchTerm: string;
 };
 
-export function BookCard({ bookData, searchTerm }: BookCardProps) {
+export function BookCard({ bookData, searchTerm }: BookCardProps):JSX.Element {
 
   const theme = useTheme();
   const navigate = useNavigate();
