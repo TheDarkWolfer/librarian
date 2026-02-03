@@ -1,10 +1,8 @@
 // Éléments de Material UI, pour faire un truc joli ¬ᴗ¬˵
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-
-// Icône(s) de Material UI ; moins fonctionnel(s), mais toujours nécessaire(s) pour l'UI/UX
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import {
+  Box,
+  Typography
+} from '@mui/material';           
 
 // Structures de données nécessaires
 import type { BookDoc } from '../api_logic/Requests.tsx';
@@ -12,7 +10,7 @@ import type { BookDoc } from '../api_logic/Requests.tsx';
 // Import du thème pour faire une belle page
 import { useTheme } from '@mui/material/styles';
 
-import { Link, useNavigate } from 'react-router-dom'; // Pour les liens (je crois que c'est plus utilisé ici :/')
+import { useNavigate } from 'react-router-dom'; // Pour les liens (je crois que c'est plus utilisé ici :/')
 
 
 type BookCardProps = {
@@ -20,7 +18,7 @@ type BookCardProps = {
   searchTerm: string;
 };
 
-export function BookCard({ bookData, searchTerm }: BookCardProps):JSX.Element {
+export function BookCard({ bookData }: BookCardProps):JSX.Element {
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -50,7 +48,15 @@ export function BookCard({ bookData, searchTerm }: BookCardProps):JSX.Element {
                   borderRadius: '1rem'
                 }}
               >
-
+                {book.title && (
+		  <Typography 
+		    variant="h5"
+		    sx={{
+		      height:"5rem",
+		    }}>
+		    {book.title}
+		  </Typography>
+		)}
                 {book.cover_i && (
                   <img
                     src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}

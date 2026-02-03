@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
 import { useRecentChanges } from '../api_logic/Requests.tsx';
 import {
   Box,
   Typography,
   Card,
   CardContent,
-  CircularProgress,
   Alert,
   Chip,
   Divider,
@@ -13,12 +11,13 @@ import {
   Stack,
   Skeleton
 } from '@mui/material';
+
 import { AccessTime, Person, Book, Edit } from '@mui/icons-material';
 
 function App() {
   const { data: recentChanges, loading, error } = useRecentChanges(10);
 
-  // Loading state with skeletons
+  // Beaucoup, beacoup de squelettes pour ~~préparer halloween~~ animer un peu le site 
   if (loading) {
     return (
       <Box p={4}>
@@ -30,20 +29,19 @@ function App() {
           {[...Array(10)].map((_, index) => (
             <Card key={index} variant="outlined">
               <CardContent>
-                {/* Header with chip and timestamp */}
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                   <Skeleton variant="circular" width={80} height={24} />
                   <Skeleton variant="text" width={120} />
                 </Box>
 
-                {/* Comment section */}
+                {/* Juste du text... Mais squelette ! */}
                 <Skeleton variant="text" />
                 <Skeleton variant="text" />
                 <Skeleton variant="text" width="80%" />
 
                 <Divider sx={{ my: 1 }} />
 
-                {/* Footer with author and items */}
+                {/* Encore plus de squelettes : go la nécromancie ! */}
                 <Box display="flex" justifyContent="space-between" alignItems="center">
                   <Box display="flex" alignItems="center" gap={1}>
                     <Skeleton variant="circular" width={20} height={20} />
@@ -125,7 +123,7 @@ function App() {
                   {change.changes.map((c) => (
                     <Link
                       key={c.key}
-                      href={`/book/?id=${c.key.split('/').pop()}`}
+                      href={`/book/?id=${c.key.split('/').pop()?.replace('M', 'W')}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       underline="hover"

@@ -1,14 +1,12 @@
 // Import des éléments nécessaires depuis React
-import { useState, useContext, createContext } from 'react';
-import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 // Import de différents éléments depuis MaterialUI pour
 // améliorer l'apparence du site
-import Checkbox from '@mui/material/Checkbox';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import SearchIcon from '@mui/icons-material/Search';
-import BiotechIcon from '@mui/icons-material/Biotech';
 import HomeFilledIcon from '@mui/icons-material/HomeFilled';
 
 //Éléments fonctionnels de MaterialUI
@@ -30,9 +28,6 @@ import SearchPage from './Search.tsx'; // Recherche avancée
 import BookPage from './Book.tsx'; // Détails d'un livre précis
 import IndexPage from './Index.tsx'; // Page d'accueil
 
-// Import d'un utilitaire pour l'interface
-import { ActionCard } from "../components/ActionCard.tsx";
-
 //========================[Beauté de l'interface]========================//
 
 // Import d'une feuille de style parce que je REFUSE de
@@ -41,7 +36,6 @@ import '../style.css';
 
 // Implémentation de modes sombre / clair
 import { lightTheme, darkTheme } from './theme.ts'
-export const ThemeContext = createContext<string>(null);
 
 // Usage d'un hook custom pour simplifier les choses
 // export function useTheme() {
@@ -64,6 +58,7 @@ function App() {
       return;
     case "index":
       navigate("/");
+      break
     default:
       navigate(newPage);
     } 

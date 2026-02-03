@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { useAuthorSearch } from '../api_logic/Requests.tsx';
@@ -28,7 +27,9 @@ export function AuthorDetails({ authorKey }: { authorKey: string }):JSX.Element 
 
   return (
     <Box sx={{
-      width:"50rem",
+      width:"100%",
+      maxWidth:"100%",
+      overflow:"hidden",
       margin:"0 auto",
       textAlign:"center",
       paddingBottom:"10rem",
@@ -41,7 +42,12 @@ export function AuthorDetails({ authorKey }: { authorKey: string }):JSX.Element 
       {yeetTerf && yeetTerf}
       {data.birth_date && <Typography>Born: {data.birth_date}</Typography>}
       {data.death_date && <Typography>Died: {data.death_date}</Typography>}
-      {bio && <Typography>{bio}</Typography>}
+      {bio && 
+	<Typography 
+	  sx={{ wordBreak: 'break-word' }}
+	>
+	  {bio}
+	</Typography>}
     </Box>
   );
 }

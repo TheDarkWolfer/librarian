@@ -179,7 +179,9 @@ export function useAuthorSearch(authorKey: string) {
   return { data, loading, error };
 }
 
-interface RecentChangesResponse extends Array<RecentChange> {}
+interface RecentChangesResponse extends Array<RecentChange> {
+  timestamp:Date;
+}
 
 export function useRecentChanges(limit: number = 15) {
   const [data, setData] = useState<RecentChangesResponse | null>(null);
@@ -191,7 +193,7 @@ export function useRecentChanges(limit: number = 15) {
       try {
         setLoading(true);
         const response = await axios.get<RecentChangesResponse>(
-          `https://openlibrary.org/recentchanges.json?limit=${limit}`
+          `https://openlibrary.org/recentchanges/update.json?limit=${limit}`
         );
         setData(response.data);
       } catch (err) {
