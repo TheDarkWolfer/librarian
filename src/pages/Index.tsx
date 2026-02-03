@@ -1,9 +1,5 @@
-import {useState, useEffect} from 'react'; 
-
+import { useState, useEffect } from 'react';
 import { useRecentChanges } from '../api_logic/Requests.tsx';
-
-// Je viens d'apprendre que ce type d'imports était valide. 
-// Ça fait des jours que j'importe en mode "Wall of Text"...
 import {
   Box,
   Typography,
@@ -14,21 +10,85 @@ import {
   Chip,
   Divider,
   Link,
-  Stack
+  Stack,
+  Skeleton
 } from '@mui/material';
 import { AccessTime, Person, Book, Edit } from '@mui/icons-material';
 
 function App() {
-  const { data:recentChanges, loading, error } = useRecentChanges(10);  
+  const { data: recentChanges, loading, error } = useRecentChanges(10);
 
- return (
+  // Loading state with skeletons
+  if (loading) {
+    return (
+      <Box p={4}>
+        <Typography variant="h4" gutterBottom>
+          <Skeleton width="60%" />
+        </Typography>
+
+        <Stack spacing={2}>
+          {[...Array(10)].map((_, index) => (
+            <Card key={index} variant="outlined">
+              <CardContent>
+                {/* Header with chip and timestamp */}
+                <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+                  <Skeleton variant="circular" width={80} height={24} />
+                  <Skeleton variant="text" width={120} />
+                </Box>
+
+                {/* Comment section */}
+                <Skeleton variant="text" />
+                <Skeleton variant="text" />
+                <Skeleton variant="text" width="80%" />
+
+                <Divider sx={{ my: 1 }} />
+
+                {/* Footer with author and items */}
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <Skeleton variant="circular" width={20} height={20} />
+                    <Skeleton variant="text" width={80} />
+                  </Box>
+                  <Box display="flex" gap={1}>
+                    <Skeleton variant="circular" width={60} height={24} />
+                    <Skeleton variant="circular" width={60} height={24} />
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          ))}
+        </Stack>
+      </Box>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <Box p={4}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
+    );
+  }
+
+  // Empty state
+  if (!recentChanges || recentChanges.length === 0) {
+    return (
+      <Box p={4}>
+        <Alert severity="info">No recent changes found</Alert>
+      </Box>
+    );
+  }
+
+  // Success state with actual data
+  return (
     <Box p={4}>
       <Typography variant="h4" gutterBottom>
         Recent Open Library Changes
       </Typography>
 
       <Stack spacing={2}>
-        {recentChanges && recentChanges.map((change) => (
+        {recentChanges.map((change) => (
           <Card key={change.id} variant="outlined">
             <CardContent>
               <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
@@ -61,12 +121,11 @@ function App() {
                     {change.author.key.replace('/people/', '')}
                   </Typography>
                 </Box>
-
                 <Box display="flex" gap={1}>
                   {change.changes.map((c) => (
                     <Link
                       key={c.key}
-                      href={`https://openlibrary.org${c.key}`}
+                      href={`/book/?id=${c.key.split('/').pop()}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       underline="hover"
@@ -88,4 +147,5 @@ function App() {
   );
 }
 
-export default App
+export default App;
+

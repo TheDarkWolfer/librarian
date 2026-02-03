@@ -170,7 +170,7 @@ function App() {
 	  />
 	  <BottomNavigationAction
 	    label="Accueil"
-	    value="index" // C'est fait à la McGuyver ? Oui. Pas touche (¬_¬")
+	    value="" // C'est fait à la McGuyver ? Oui. Pas touche (¬_¬")
 	    icon={<HomeFilledIcon/>}
 	    />
 	  <BottomNavigationAction
