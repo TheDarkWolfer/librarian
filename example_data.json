@@ -1,0 +1,151 @@
+{
+  "numFound": 8,
+  "start": 0,
+  "numFoundExact": true,
+  "num_found": 8,
+  "documentation_url": "https://openlibrary.org/dev/docs/api/search",
+  "q": "Marchombre",
+  "offset": null,
+  "docs": [
+    {
+      "author_key": [
+        "OL3135944A"
+      ],
+      "author_name": [
+        "Pierre Bottero"
+      ],
+      "cover_edition_key": "OL31986927M",
+      "cover_i": 10660234,
+      "ebook_access": "no_ebook",
+      "edition_count": 1,
+      "first_publish_year": 2006,
+      "has_fulltext": false,
+      "key": "/works/OL24210815W",
+      "language": [
+        "fre"
+      ],
+      "public_scan_b": false,
+      "title": "Le Pacte des MarchOmbres - Ellana"
+    },
+    {
+      "author_key": [
+        "OL10832133A"
+      ],
+      "author_name": [
+        "P. Bottero"
+      ],
+      "cover_edition_key": "OL40287531M",
+      "cover_i": 14462324,
+      "ebook_access": "borrowable",
+      "edition_count": 1,
+      "first_publish_year": 2010,
+      "has_fulltext": true,
+      "ia": [
+        "ellanalepactedes0000pbot"
+      ],
+      "ia_collection": [
+        "inlibrary",
+        "internetarchivebooks",
+        "printdisabled"
+      ],
+      "key": "/works/OL29306925W",
+      "lending_edition_s": "OL40287531M",
+      "lending_identifier_s": "ellanalepactedes0000pbot",
+      "public_scan_b": false,
+      "title": "Ellana (le Pacte des Marchombres, Tome 1)"
+    },
+    {
+      "author_key": [
+        "OL3135944A"
+      ],
+      "author_name": [
+        "Pierre Bottero"
+      ],
+      "ebook_access": "borrowable",
+      "edition_count": 1,
+      "first_publish_year": 2010,
+      "has_fulltext": true,
+      "ia": [
+        "lepactedesmarcho0000pier"
+      ],
+      "ia_collection": [
+        "inlibrary",
+        "internetarchivebooks",
+        "printdisabled"
+      ],
+      "key": "/works/OL35326594W",
+      "lending_edition_s": "OL47740423M",
+      "lending_identifier_s": "lepactedesmarcho0000pier",
+      "public_scan_b": false,
+      "title": "Le Pacte DES Marchombres/Ellana, L'Envol (French Edition)"
+    },
+    {
+      "ebook_access": "no_ebook",
+      "edition_count": 1,
+      "has_fulltext": false,
+      "key": "/works/OL36512085W",
+      "public_scan_b": false,
+      "title": "Ellana l'envol"
+    },
+    {
+      "ebook_access": "no_ebook",
+      "edition_count": 1,
+      "has_fulltext": false,
+      "key": "/works/OL36512050W",
+      "public_scan_b": false,
+      "title": "Ellana la prophétie"
+    },
+    {
+      "author_key": [
+        "OL3135944A"
+      ],
+      "author_name": [
+        "Pierre Bottero"
+      ],
+      "ebook_access": "no_ebook",
+      "edition_count": 1,
+      "first_publish_year": 2010,
+      "has_fulltext": false,
+      "key": "/works/OL35326425W",
+      "public_scan_b": false,
+      "title": "Ellana - La prophétie (Le pacte des Marchombres t. 3) (French Edition)"
+    },
+    {
+      "author_key": [
+        "OL3135944A"
+      ],
+      "author_name": [
+        "Pierre Bottero"
+      ],
+      "cover_edition_key": "OL26813023M",
+      "cover_i": 8470794,
+      "ebook_access": "no_ebook",
+      "edition_count": 1,
+      "first_publish_year": 2010,
+      "has_fulltext": false,
+      "key": "/works/OL19356623W",
+      "language": [
+        "fre"
+      ],
+      "public_scan_b": false,
+      "title": "Ellana, L'Envol (Le Pacte Des Marchombres, Tome 2) (Ldp Fantasy) (French Edition)"
+    },
+    {
+      "author_key": [
+        "OL3135944A"
+      ],
+      "author_name": [
+        "Pierre Bottero"
+      ],
+      "cover_edition_key": "OL27071496M",
+      "cover_i": 8688853,
+      "ebook_access": "no_ebook",
+      "edition_count": 1,
+      "first_publish_year": 2010,
+      "has_fulltext": false,
+      "key": "/works/OL19884376W",
+      "public_scan_b": false,
+      "title": "Ellana, La Prophetie (Le Pacte Des Marchombres, Tome 3) (Ldp Fantasy) (French Edition)"
+    }
+  ]
+}

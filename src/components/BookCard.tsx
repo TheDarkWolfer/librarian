@@ -29,7 +29,6 @@ export function BookCard({ bookData, searchTerm }: BookCardProps):JSX.Element {
     <>
       {bookData && (
         <Box>
-          <h3>{bookData.numFound} résultats pour "{searchTerm}"</h3>
           <Box sx={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',

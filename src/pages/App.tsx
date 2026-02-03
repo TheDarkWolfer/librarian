@@ -28,6 +28,10 @@ import Box from '@mui/material/Box';
 // Différentes routes
 import SearchPage from './Search.tsx'; // Recherche avancée
 import BookPage from './Book.tsx'; // Détails d'un livre précis
+import IndexPage from './Index.tsx'; // Page d'accueil
+
+// Import d'un utilitaire pour l'interface
+import { ActionCard } from "../components/ActionCard.tsx";
 
 //========================[Beauté de l'interface]========================//
 
@@ -58,8 +62,8 @@ function App() {
   switch (newPage) {
     case "theme":
       return;
-    case "back":
-      navigate(-1);
+    case "index":
+      navigate("/");
     default:
       navigate(newPage);
     } 
@@ -87,6 +91,7 @@ function App() {
 	 paddingBottom: "5rem",
        }}>
 	 <Routes>
+	    <Route path="/" element={<IndexPage/>} />
 	    <Route path="/search" element={<SearchPage/>} />
 	    <Route path="/book" element={<BookPage/>} />
 	  </Routes>
@@ -137,18 +142,6 @@ function App() {
 	</ToolBar>
       </AppBar>
 
-      <Box sx={{
-	display: 'flex',
-	justifyContent: 'center',
-	alignItems: 'center',
-        minHeight: '33rem',
-      }}>
-	<Box>
-	  <Typography>
-	    TEST
-	  </Typography>
-	</Box>
-      </Box>
 
       <BottomNavigation 
 	  value={location.pathname} 
@@ -177,7 +170,7 @@ function App() {
 	  />
 	  <BottomNavigationAction
 	    label="Accueil"
-	    value="back" // C'est fait à la McGuyver ? Oui. Pas touche (¬_¬")
+	    value="index" // C'est fait à la McGuyver ? Oui. Pas touche (¬_¬")
 	    icon={<HomeFilledIcon/>}
 	    />
 	  <BottomNavigationAction

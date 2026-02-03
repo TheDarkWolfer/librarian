@@ -56,6 +56,21 @@ interface AuthorData {
   // une structure stable et viable pour ça
 }
 
+export interface bookUpdate {
+  id: string;
+  kind: 'edit-book' | string;
+  timestamp: string;
+  comment: string;
+  changes: {
+    key: string;
+    revision: number;
+  }[];
+  author: {
+    key: string;
+  };
+  ip: string | null;
+  data: Record<string, unknown>;
+};
 
 // Fonction de nettoyage de l'entrée utilisateur.ice avec zod, au cas où
 function sanitizeInput(dataIn: string): string {
@@ -164,3 +179,30 @@ export function useAuthorSearch(authorKey: string) {
   return { data, loading, error };
 }
 
+interface RecentChangesResponse extends Array<RecentChange> {}
+
+export function useRecentChanges(limit: number = 15) {
+  const [data, setData] = useState<RecentChangesResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get<RecentChangesResponse>(
+          `https://openlibrary.org/recentchanges.json?limit=${limit}`
+        );
+        setData(response.data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Pas réussi à récupérer les derniers changements (つ╥﹏╥)つ');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [limit]);
+
+  return { data, loading, error };
+}
