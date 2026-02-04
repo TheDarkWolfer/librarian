@@ -12,6 +12,8 @@ import {
   TextField,
 } from '@mui/material';
 
+import NumberField from '../components/NumberField.tsx';
+
 //Appel à l'API pour récupérer les infos
 import { useSimpleSearch } from '../api_logic/Requests.tsx';
 
@@ -29,16 +31,25 @@ function App() {
   const [bookName, setBookName] = useState<string>(urlQuery);
   const [searchTerm, setSearchTerm] = useState<string>(urlQuery);
 
-  const { data, loading, error } = useSimpleSearch(searchTerm);
+  // Pour le slider de choix de période
+  const Year:number = new Date().getFullYear();
+  /* const [timeFrame, setTimeFrame] = useState<number[]>([1800,Year]); */
+ const [timeFrame, setTimeFrame] = useState<number[]>(() => {
+  const startYear = searchParams.get('startYear') || "1800";
+  const endYear = searchParams.get('endYear') || Year.toString();
+  return [Number(startYear), Number(endYear)];
+});
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const query = searchParams.get('q');
-    if (query) {
-      setBookName(query);
-      setSearchTerm(query)
-    }
-  }, [location.search]);
+  const { data, loading, error } = useSimpleSearch(searchTerm,timeFrame);
+
+  // useEffect(() => {
+  //   const searchParams = new URLSearchParams(location.search);
+  //   const query = searchParams.get('q');
+  //   if (query) {
+  //     setBookName(query);
+  //     setSearchTerm(query)
+  //   }
+  // }, [location.search]);
     
   useEffect(() => {
     if (data || error);
@@ -51,6 +62,9 @@ function App() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBookName(event.target.value);
   };
+
+  console.log('timeFrame:',timeFrame,'searchTerm:',searchTerm)
+
   return (
     <>
     <Box
@@ -72,7 +86,23 @@ function App() {
 	  variant="outlined"
 	  value={bookName}
 	  onChange={handleChange}
-	/> 
+	/>
+	<NumberField
+	  min={1800}
+	  max={Year}
+	  size="small"
+	  value={timeFrame[0]}
+	  onValueChange={(value) => setTimeFrame(prev => [value ?? prev[0], prev[1]])}
+	  helperLabel="début"
+	/>
+	<NumberField
+	  min={1800}
+	  max={Year}
+	  size="small"
+	  value={timeFrame[1]}
+	  onValueChange={(value) => setTimeFrame(prev => [prev[0], value ?? prev[1]])}
+	  helperLabel="fin"
+	/>
 	<Button
 	  variant="contained"
 	  onClick={handleSearch}

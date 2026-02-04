@@ -57,6 +57,7 @@ export function BookCard({ bookData }: BookCardProps):JSX.Element {
 		    {book.title}
 		  </Typography>
 		)}
+		{console.log(`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`)}
                 {book.cover_i && (
                   <img
                     src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}

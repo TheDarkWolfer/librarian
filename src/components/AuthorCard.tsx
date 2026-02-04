@@ -50,4 +50,4 @@ export function AuthorDetails({ authorKey }: { authorKey: string }):JSX.Element 
 	</Typography>}
     </Box>
   );
-}
+} 

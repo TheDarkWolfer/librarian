@@ -1,9 +1,14 @@
 // On récupère les parties de React qui pourraient nous servir
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 // Material UI pour que ça soit agréable sur les yeux
 import { 
   Box,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  Skeleton,
 } from '@mui/material';
 
 // On récupère aussi la fonction de recherche depuis 
@@ -11,45 +16,154 @@ import {
 import { useSpecificSearch } from '../api_logic/Requests.tsx';
 import { AuthorDetails } from '../components/AuthorCard.tsx';
 
+// Le thème : le plus important ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧
+import { useTheme } from '@mui/material/styles';
+
 function App() {
   // useState pour l'ID du bouquin
   const [bookID, setBookID] = useState<string>("");
   
-  const {data, loading, error} = useSpecificSearch(bookID);
+  const { data, loading, error } = useSpecificSearch(bookID);
 
-  // Vu qu'on a potentiellement plusieurs auteur.ices, il faut adapter l'affichage des noms
+  const theme = useTheme();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const id = searchParams.get('id'); // Récupération de l'ID dans l'URL
+    const id = searchParams.get('id');
     if (id) {
-      setBookID(id); // On stocke l'ID du livre, encore une fois
+      setBookID(id);
     }
-  }, [])
+  }, []);
 
-  // console.log(data) 
-  /*
-    Je laisse ça pour deux raisons :
-      1. Ça peut toujours servir
-      2. J'ai passé dix minutes à chercher ce maudit console.log, et je veux garder ça là comme un petit souvenir de cette interruption
-  */
+  // Construire l'URL de la couverture
+  // Open Library utilise les cover IDs ou l'OLID du livre
+  const getCoverUrl = () => {
+    // Check if the API returns covers array
+    if (data?.covers?.[0]) {
+      return `https://covers.openlibrary.org/b/id/${data.covers[0]}-M.jpg`;
+    }
+    // Fallback to OLID
+    if (bookID) {
+      return `https://covers.openlibrary.org/b/olid/${bookID}-M.jpg`;
+    }
+    return null;
+  };
+
+
+  // La description peut être un string ou un objet {value: string}
+  const getDescription = () => {
+    if (!data?.description) return null;
+    if (typeof data.description === 'string') {
+      return data.description;
+    }
+    return data.description.value;
+  };
 
   return (
-      <>
-	<h1>Détails d'un livre</h1>
-	{loading && <p>Loading...</p>}
-	{error && <p>Error: {error.message}</p>}
-	  {data && (
-	    <Box>
-	      <h2>{data.title}</h2>
-	      
-	      {data.authors?.map((authorObj, index) => (
-		<AuthorDetails key={index} authorKey={authorObj.author.key} />
-	      ))}
+    <>
+      {loading && (
+        <Box sx={{ display: 'flex', gap: 3 }}>
+          <Skeleton variant="rectangular" width={200} height={300} />
+          <Box sx={{ flex: 1 }}>
+            <Skeleton variant="text" sx={{ fontSize: '2rem', width: '60%' }} />
+            <Skeleton variant="text" sx={{ width: '80%' }} />
+            <Skeleton variant="text" sx={{ width: '80%' }} />
+            <Skeleton variant="text" sx={{ width: '60%' }} />
+          </Box>
+        </Box>
+      )}
+      {error && <p>Error: {error.message}</p>}
+      {data && (
+        <Card sx={{ 
+	  display: 'flex', 
+	  flexDirection: { xs: 'column', md: 'row' }, 
+	  gap: 2, 
+	  p: 2,
+	  maxWidth: 900,      // Limiter la largeur
+	  mx: 'auto',
+	}}>
+          
+          
+          <CardContent sx={{ 
+	    flex: 1, 
+	    textAlign:'center'
+	  }}>
+            {/* Titre */}
+            <Typography variant="h4" component="h2" gutterBottom>
+              {data.title}
+            </Typography>
+            
+            {/* Auteur.ices */}
+            <Box sx={{ 
+	      mb: 2, 
+	      display:'flex',
+	      textAlign:'center',
+	      flexDirection:'column',
+	      alignItems:'center',
+	    }}>
+              {data.authors?.map((authorObj, index) => (
+                <AuthorDetails key={index} authorKey={authorObj.author.key} />
+              ))}
+            </Box>     
+
+	    {/* Couverture du livre */}
+	    <Box sx={{
+	      padding: '1rem',
+	      borderRadius: '1rem',
+	      backgroundColor: theme.palette.background.paper,
+	      flexDirection: 'column',
+	      alignItems: 'center',
+	      display: 'flex',
+	      width:'fit-content',
+	      mx:'auto',
+	    }}>
+	       <CardMedia
+		component="img"
+		sx={{ 
+		  width: { xs: '100%', md: 200 }, 
+		  height: { xs: 300, md: 'auto' },
+		  objectFit: 'contain',
+		  borderRadius: 1, 
+		  display:'block',
+		  margin:'0 auto',
+		  textAlign:'center'
+		}}
+		image={getCoverUrl() || '/placeholder-book.png'}
+		alt={`Couverture de ${data.title}`}
+		onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+		  // Image de fallback si la couverture n'existe pas
+		  e.currentTarget.src = 'https://via.placeholder.com/200x300?text=No+Cover';
+		}}
+	      /> 
 	    </Box>
-	  )}
-      </>
-  )
+            
+            {/* Description */}
+            {getDescription() ? (
+              <Box sx={{
+		textAlign:'center'
+	      }}>
+                <Typography variant="h6" gutterBottom>
+                  Description
+                </Typography>
+                <Typography variant="body1" 
+		sx={{ 
+		  whiteSpace: 'pre-line' , 
+		  textAlign:'center'
+		}}>
+                  {getDescription()}
+                </Typography>
+              </Box>
+            ) : (
+              <Typography variant="body2" color="text.secondary" fontStyle="italic">
+                Aucune description disponible pour ce livre.
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+      )}
+    </>
+  );
 }
 
 export default App;
+

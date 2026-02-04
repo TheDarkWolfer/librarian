@@ -11,6 +11,8 @@ export interface BookDoc {
   has_fulltext: boolean;
   public_scan_b: boolean;
 
+  description?:string | {value: string};
+
   author_key?: string[];
   author_name?: string[];
   cover_edition_key?: string;
@@ -89,7 +91,7 @@ function sanitizeInput(dataIn: string): string {
 // Hook permettant de faire les requêtes ; prend en entrée un terme 
 // (livre, nom d'auteur, bref quoi que çe soit), et et renvoie données, 
 // status et erreur (si applicable)
-export function useSimpleSearch(userQuery: string) {
+export function useSimpleSearch(userQuery: string, timeRange:number[]) {
   const [data, setData] = useState<SearchResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -99,9 +101,11 @@ export function useSimpleSearch(userQuery: string) {
       try {
         setLoading(true);
         const safeQuery = sanitizeInput(userQuery);
-        const response = await axios.get<SearchResponse>(
-          `https://openlibrary.org/search.json?q=${safeQuery}`
-        );
+
+	const response = await axios.get<SearchResponse>(          
+	  `https://openlibrary.org/search.json?q=${safeQuery}+first_publish_year:[${timeRange[0]}+TO+${timeRange[1]}]`
+	);
+
         setData(response.data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'You broke it (•̀⤙•́)');
@@ -113,7 +117,7 @@ export function useSimpleSearch(userQuery: string) {
     if (userQuery) {
       fetchData();
     }
-  }, [userQuery]);
+  }, [userQuery,timeRange]);
 
   return { data, loading, error };
 }
