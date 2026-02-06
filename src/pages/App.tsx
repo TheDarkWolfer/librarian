@@ -139,6 +139,7 @@ function App() {
 
 
       <BottomNavigation 
+	  role="navigation"
 	  value={location.pathname} 
 	  onChange={handleChange}
 	  sx={{ 
@@ -150,8 +151,10 @@ function App() {
 	  }}  
 	  >
 	  
-	  // Bouton pour changer le thème ; me sers bien des ternaires vu que ça 
-	  // rend la gestion du changement d'état BIEN PRATIQUE~
+	  {/*
+	  Bouton pour changer le thème ; me sers bien des ternaires vu que ça 
+	  rend la gestion du changement d'état BIEN PRATIQUE~
+	  */}
 	  <BottomNavigationAction
 	    label={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
 	    icon={

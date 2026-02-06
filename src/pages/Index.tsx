@@ -22,7 +22,7 @@ function App() {
     return (
       <Box p={4}>
         <Typography variant="h4" gutterBottom>
-          <Skeleton width="60%" />
+          <Skeleton data-testid="skeleton" width="60%" />
         </Typography>
 
         <Stack spacing={2}>

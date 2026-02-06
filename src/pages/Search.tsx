@@ -41,15 +41,6 @@ function App() {
 });
 
   const { data, loading, error } = useSimpleSearch(searchTerm,timeFrame);
-
-  // useEffect(() => {
-  //   const searchParams = new URLSearchParams(location.search);
-  //   const query = searchParams.get('q');
-  //   if (query) {
-  //     setBookName(query);
-  //     setSearchTerm(query)
-  //   }
-  // }, [location.search]);
     
   useEffect(() => {
     if (data || error);
@@ -94,6 +85,7 @@ function App() {
 	  value={timeFrame[0]}
 	  onValueChange={(value) => setTimeFrame(prev => [value ?? prev[0], prev[1]])}
 	  helperLabel="début"
+	  label="début"
 	/>
 	<NumberField
 	  min={1800}
@@ -102,9 +94,11 @@ function App() {
 	  value={timeFrame[1]}
 	  onValueChange={(value) => setTimeFrame(prev => [prev[0], value ?? prev[1]])}
 	  helperLabel="fin"
+	  label="fin"
 	/>
 	<Button
 	  variant="contained"
+	  aria-label="search"
 	  onClick={handleSearch}
 	  sx={{ 
 	    mt: 1,
