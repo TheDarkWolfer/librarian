@@ -28,6 +28,7 @@ function checkAuthor(AuthorName:string):boolean {
 }
 
 export function rmTerf(AuthorName:string) {
+  if (import.meta.env.VITE_ENABLE_ACTIVISM) return null
   if (!checkAuthor(AuthorName)) { return null ; }
     // https://www.ms.now/opinion/msnbc-opinion/jk-rowling-uk-trans-women-ruling-rcna201947
     // https://en.wikipedia.org/wiki/Political_views_of_J._K._Rowling // just look at the second fucking paragraph

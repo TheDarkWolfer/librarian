@@ -52,3 +52,14 @@ npm run prod
 
 #### I-d. Utilisation
 Vous pouvez naviguer au port 5173 du serveur, ou bien établir une règle de transmission NAT, dresser un proxy, ou toute autre solution exposant le port 5173 aux ports 80 ou 443 pour l'accès utilisateur.ices
+
+### II. Tests
+Vous pouvez lancer les tests de l'application avec la commande suivante :
+```bash
+npm run test #Ou `npm test`
+```
+Il n'y a actuellement que trois tests s'assurant la disponibilité du site, mais il sera possible d'étendre cette suite de tests à l'avenir.
+
+### III. Activisme
+Il y a une fonctionnalité de flagging des auteur.ices ; certain.es auteur.ices ont agi de manière discutable et pris des positions qui ont activement contribué à la persécution de certaines minorités. Ce faisant, ces auteurs reçoivent automatiquement une bannière explicant la situation ; ***cette bannière n'empêche pas l'accès aux données, et a un rôle purement informatif***. Cependant, si vous souhaitez désactiver cette fonctionnalité, vous pouvez lancer le projet avec la variable d'environnement `VITE_ENABLE_ACTIVISM` à `false` (activé par défaut).
+> Je vous prie de ne pas désactiver cette bannière. C'est un sujet que je considère important, surtout par le climat politique actuel.
