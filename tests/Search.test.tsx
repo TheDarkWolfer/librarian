@@ -18,7 +18,7 @@ test("Affichage de la page de recherche", async () => {
   expect(screen.getByRole('heading', { name: /recherche/i })).toBeInTheDocument();
 
   // Vérifcation de la présence d'une section de recherche pour les livres
-  expect(screen.getByLabelText(/livre/i)).toBeInTheDocument();
+  expect(screen.getByLabelText(/titre/i)).toBeInTheDocument();
 
   // Vérification des NumberFields, en utilisants leurs labels
   expect(screen.getByLabelText(/début/i)).toBeInTheDocument();
