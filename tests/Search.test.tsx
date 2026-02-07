@@ -18,11 +18,11 @@ test("Affichage de la page de recherche", async () => {
   expect(screen.getByRole('heading', { name: /recherche/i })).toBeInTheDocument();
 
   // Vérifcation de la présence d'une section de recherche pour les livres
-  expect(screen.getByLabelText(/titre/i)).toBeInTheDocument();
+  expect(screen.getByLabelText(/titre/gi)).toBeInTheDocument();
 
   // Vérification des NumberFields, en utilisants leurs labels
-  expect(screen.getByLabelText(/début/i)).toBeInTheDocument();
-  expect(screen.getByLabelText(/fin/i)).toBeInTheDocument();
+  expect(screen.getByLabelText(/minimale/i)).toBeInTheDocument();
+  expect(screen.getByLabelText(/maximale/i)).toBeInTheDocument();
 
   // On s'assure que le bouton de recherche est bien présent
   expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
