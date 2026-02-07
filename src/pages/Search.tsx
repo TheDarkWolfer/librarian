@@ -73,7 +73,7 @@ function App() {
 	  sx={{
 	    height:"0rem"
 	  }}
-	  label="Livre" 
+	  label="Titre, Auteur.ice, Tags..." 
 	  variant="outlined"
 	  value={bookName}
 	  onChange={handleChange}
@@ -84,8 +84,8 @@ function App() {
 	  size="small"
 	  value={timeFrame[0]}
 	  onValueChange={(value) => setTimeFrame(prev => [value ?? prev[0], prev[1]])}
-	  helperLabel="début"
-	  label="début"
+	  helperLabel="publication minimale"
+	  label="publication minimale"
 	/>
 	<NumberField
 	  min={1800}
@@ -93,8 +93,8 @@ function App() {
 	  size="small"
 	  value={timeFrame[1]}
 	  onValueChange={(value) => setTimeFrame(prev => [prev[0], value ?? prev[1]])}
-	  helperLabel="fin"
-	  label="fin"
+	  helperLabel="publication maximale"
+	  label="publication maximale"
 	/>
 	<Button
 	  variant="contained"

@@ -72,7 +72,31 @@ function App() {
           </Box>
         </Box>
       )}
-      {error && <p>Error: {error.message}</p>}
+      {error && (
+	<Box sx={{
+	  paddingTop:'13rem',
+	  display: 'flex', 
+	  justifyContent: 'center'
+	}}>
+	  <Box 
+	    label='404error'
+	    sx={{ 
+	      display: 'flex',
+	      gap: 3,
+	      backgroundColor: theme.palette.background.paper,
+	      borderRadius: '3rem',
+	      justifyContent: 'center',
+	      alignItems: 'center',
+	      padding: '3rem',
+	      width: '50%'
+	  }}>
+	    <Typography variant='h5'>
+	      Impossible de trouver cette oeuvre...
+	      Y-a-t'il une erreur dans l'ID du livre ?
+	    </Typography>
+	  </Box>
+	</Box>
+      )}
       {data && (
         <Card sx={{ 
 	  display: 'flex', 

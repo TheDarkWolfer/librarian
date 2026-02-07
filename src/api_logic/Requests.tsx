@@ -136,7 +136,18 @@ export function useSpecificSearch(userQuery: string) {
         const safeQuery = sanitizeInput(userQuery);
         const response = await axios.get<SearchResponse>(
           `https://openlibrary.org/works/${safeQuery}.json`
-        );
+        ).catch((err) => {  
+          if (err.response) {
+            // On se prépare aux erreurs possibles
+            throw new Error(`Server error: ${err.response.status}`);
+          } else if (err.request) {
+            // Le cas d'une réponse vide
+            throw new Error("No response from server");
+          } else {
+            // Erreur de parsing
+            throw new Error(`Failed to parse data: ${err.message}`);
+          }
+        });
         setData(response.data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Aucune oeuvre trouvée (つ╥﹏╥)つ');

@@ -82,7 +82,7 @@ function App() {
   return (
     <Box p={4}>
       <Typography variant="h4" gutterBottom>
-        Recent Open Library Changes
+        Derniers changements sur openlibrary.org
       </Typography>
 
       <Stack spacing={2}>
