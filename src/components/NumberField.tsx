@@ -114,7 +114,7 @@ export default function NumberField({
         )}
       />
       <FormHelperText sx={{ ml: 0, '&:empty': { mt: 0 } }}>
-        Choisissez une année de {helperLabel}
+        Année {helperLabel}
       </FormHelperText>
     </BaseNumberField.Root>
   );

@@ -27,11 +27,11 @@ function App() {
   const searchParams = new URLSearchParams(location.search);
   const urlQuery = searchParams.get('q') || "";
 
-  // Initialize state with URL values
+  // Récupérations des paramètres d'URL'
   const [bookName, setBookName] = useState<string>(urlQuery);
   const [searchTerm, setSearchTerm] = useState<string>(urlQuery);
 
-  // Pour le slider de choix de période
+  // Pour le champ de choix de période
   const Year:number = new Date().getFullYear();
   /* const [timeFrame, setTimeFrame] = useState<number[]>([1800,Year]); */
  const [timeFrame, setTimeFrame] = useState<number[]>(() => {
@@ -55,67 +55,118 @@ function App() {
   };
 
   console.log('timeFrame:',timeFrame,'searchTerm:',searchTerm)
+  
 
   return (
-    <>
-    <Box
-      sx={{
-	    width:"100%",
-	    maxWidth:"100%",
-	    overflow:"hidden",
-	  }}>
-      <Typography variant="h3">
+    <Box sx={{
+      width: "100%",
+      maxWidth: "1200px", // Largeur maximale pour éviter les lignes trop longues
+      margin: "0 auto", // Centre horizontalement
+      padding: 2, // Espacement interne
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center', // Centre tous les enfants horizontalement
+      gap: 3, // Espacement entre les sections
+    }}>
+      {/* Titre centré */}
+      <Typography
+	variant="h3"
+	sx={{
+	  textAlign: 'center',
+	  width: '100%',
+	  mb: 2
+	}}
+      >
 	Recherche
       </Typography>
+
+      {/* Conteneur du formulaire */}
       <Box sx={{
+	width: '100%',
+	display: 'flex',
+	flexDirection: { xs: 'column', sm: 'row' },
+	justifyContent: 'center', // Centre horizontalement
+	alignItems: 'center', // Centre verticalement
+	gap: 2,
+	flexWrap: 'wrap',
       }}>
-	<TextField 
-	  sx={{
-	    height:"0rem"
-	  }}
-	  label="Titre, Auteur.ice, Tags..." 
+	{/* Champ de recherche */}
+	<TextField
+	  fullWidth
+	  label="Titre, Auteur.ice, Tags..."
 	  variant="outlined"
 	  value={bookName}
 	  onChange={handleChange}
-	/>
-	<NumberField
-	  min={1800}
-	  max={Year}
-	  size="small"
-	  value={timeFrame[0]}
-	  onValueChange={(value) => setTimeFrame(prev => [value ?? prev[0], prev[1]])}
-	  helperLabel="publication minimale"
-	  label="publication minimale"
-	/>
-	<NumberField
-	  min={1800}
-	  max={Year}
-	  size="small"
-	  value={timeFrame[1]}
-	  onValueChange={(value) => setTimeFrame(prev => [prev[0], value ?? prev[1]])}
-	  helperLabel="publication maximale"
-	  label="publication maximale"
-	/>
-	<Button
-	  variant="contained"
-	  aria-label="search"
-	  onClick={handleSearch}
-	  sx={{ 
-	    mt: 1,
-	    width:"3rem",
-	    height:"3rem", // J'ai passé un quart d'heure là dessus, à avoir des erreurs sur le mimetype. Merci au revoir (つ╥﹏╥)つ
+	  sx={{
+	    maxWidth: '500px', // Largeur maximale pour le champ
+	    flex: 1,
+	    minWidth: '250px',
 	  }}
-	>
-	  <SearchIcon/>
-	</Button>
+	/>
+
+	{/* Conteneur des champs de date et bouton */}
+	<Box sx={{
+	  display: 'flex',
+	  justifyContent: 'center',
+	  alignItems: 'center',
+	  gap: 2,
+	  flexWrap: 'wrap',
+	}}>
+	  <NumberField
+	    min={1800}
+	    max={Year}
+	    size="small"
+	    value={timeFrame[0]}
+	    onValueChange={(value) => setTimeFrame(prev => [value ?? prev[0], prev[1]])}
+	    helperLabel="minimale"
+	    label="minimale"
+	    sx={{
+	      width: '120px',
+	      textAlign: 'center'
+	    }}
+	  />
+	  <NumberField
+	    min={1800}
+	    max={Year}
+	    size="small"
+	    value={timeFrame[1]}
+	    onValueChange={(value) => setTimeFrame(prev => [prev[0], value ?? prev[1]])}
+	    helperLabel="maximale"
+	    label="maximale"
+	    sx={{
+	      width: '120px',
+	      textAlign: 'center'
+	    }}
+	  />
+	  <Button
+	    variant="contained"
+	    aria-label="search"
+	    onClick={handleSearch}
+	    sx={{
+	      width: "48px",
+	      height: "48px",
+	      minWidth: "48px",
+	    }}
+	  >
+	    <SearchIcon/>
+	  </Button>
+	</Box>
       </Box>
 
-	{loading && <p>Loading...</p>}
-	{error && <p>Error: {error}</p>}
-
+      {/* Messages de statut et résultats */}
+      <Box sx={{
+	width: '100%',
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center', // Centre tous les messages
+	gap: 2,
+	mt: 2,
+      }}>
+	{loading && <Typography sx={{ textAlign: 'center' }}>Chargement en cours...</Typography>}
+	{error && <Typography color="error" sx={{ textAlign: 'center' }}>Erreur : {error}</Typography>}
 	{data && <BookCard bookData={data} searchTerm={searchTerm} />}
-	</Box>
-    </>
+      </Box>
+    </Box>
   )
 }
 
